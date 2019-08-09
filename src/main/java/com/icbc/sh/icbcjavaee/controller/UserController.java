@@ -15,15 +15,36 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/index")
     public ModelAndView index(){
         return new ModelAndView("index");
     }
 
+    @RequestMapping(value = "/uindex",method = RequestMethod.GET)
+    public ModelAndView uindex(String jump){
+        if("注册".equals(jump)){
+            return new ModelAndView("register");
+        }else if ("登录".equals(jump)){
+            return new ModelAndView("login");
+        }else {
+            return new ModelAndView("index");
+        }
+
+    }
 
     @RequestMapping(value = "/register",method = RequestMethod.GET)
     public ModelAndView register(){
         return new ModelAndView("register");
+    }
+
+    @RequestMapping(value = "/uregister",method = RequestMethod.GET)
+    public ModelAndView uregister(String username,String password){
+        User user = userService.uregister(username,password);
+        if (user!=null){
+            return new ModelAndView("login");
+        }else {
+            return new ModelAndView("register");
+        }
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.GET)
@@ -37,20 +58,10 @@ public class UserController {
         System.out.println(username);
         User user = userService.ulogin(username,password);
         if(user!=null && user.getPassword().equals(password)){
-            return new ModelAndView("index");
+            return new ModelAndView("loginSuccess");
         } else {
             return new ModelAndView("login");
         }
 
-    }
-
-    @RequestMapping(value = "/uregister",method = RequestMethod.GET)
-    public ModelAndView save(String username,String password){
-        User user = userService.save(username,password);
-        if (user!=null){
-            return new ModelAndView("login");
-        }else {
-            return new ModelAndView("register");
-        }
     }
 }
