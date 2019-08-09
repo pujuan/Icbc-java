@@ -1,4 +1,4 @@
-package com.icbc.sh.icbdjavaee;
+package com.icbc.sh.icbcjavaee;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
